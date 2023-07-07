@@ -18,7 +18,7 @@ public class JokeController {
 
 
 
-    @GetMapping("/joke")
+    @GetMapping("/api/v1/joke")
     public JokeDto getJoke() {
         Joke joke = jokeService.getRandomJoke();
         JokeDto response = new JokeDto();
