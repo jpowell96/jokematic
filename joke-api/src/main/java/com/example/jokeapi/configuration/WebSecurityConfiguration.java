@@ -19,6 +19,8 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+        // withDefaults() looks for a bean named corsConfigurationSource to set up Cors for the app: 
+        // Docs: https://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/cors.html
         .cors(withDefaults())
 		.authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll()
         );

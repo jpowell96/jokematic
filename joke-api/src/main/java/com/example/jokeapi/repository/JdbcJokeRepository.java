@@ -1,11 +1,15 @@
 package com.example.jokeapi.repository;
 
 import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.example.jokeapi.model.Joke;
+
+import exception.ResourceNotFoundException;
 
 @Repository
 public class JdbcJokeRepository implements JokeRepository {
@@ -33,8 +37,16 @@ public class JdbcJokeRepository implements JokeRepository {
 
     @Override
     public Joke getJokeById(String id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getJokeById'");
+        String getByIdQuery = "SELECT * FROM jokes WHERE id=:id";
+        try {
+            return jdbcTemplate.queryForObject(getByIdQuery, Map.of("id", UUID.fromString(id)), (rs, rowNum) -> {
+                String joke = rs.getString("joke");
+                String punchline = rs.getString("punchline");
+                return new Joke(id, joke, punchline);
+            });
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("No Joke Found for id " + id);
+        }
     }
     
 }
