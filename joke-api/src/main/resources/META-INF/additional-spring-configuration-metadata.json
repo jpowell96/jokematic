@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "joke.db.datasource.url",
+  "type": "java.lang.String",
+  "description": "A description for 'joke.db.datasource.url'"
+}]}
